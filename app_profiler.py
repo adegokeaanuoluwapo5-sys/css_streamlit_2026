@@ -88,9 +88,18 @@ h1, h2, h3 {
 # ----------------------
 # HERO SECTION (Fully Self-Contained)
 # ----------------------
+
+# Check for either .jpg or .jpeg
+photo_file = None
+for ext in ["jpg", "jpeg"]:
+    if os.path.exists(f"my_photo.{ext}"):
+        photo_file = f"my_photo.{ext}"
+        break
+
+# Encode the image if found
 encoded = None
-if os.path.exists("my_photo.jpg"):
-    with open("my_photo.jpg", "rb") as f:
+if photo_file:
+    with open(photo_file, "rb") as f:
         encoded = base64.b64encode(f.read()).decode()
 
 hero_html = f"""
@@ -302,3 +311,4 @@ st.markdown(
     "<p style='text-align:center; font-weight:600;'>📧 adegokeaanuoluwapo5@gmail.com</p>",
     unsafe_allow_html=True
 )
+
