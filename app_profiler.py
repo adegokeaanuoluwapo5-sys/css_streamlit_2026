@@ -247,10 +247,11 @@ st.divider()
 # PUBLICATIONS
 # ----------------------
 st.subheader("Things I’ve put into the world 🌱")
-uploaded_file = st.file_uploader("Upload a CSV of publications", type="csv")
 
-if uploaded_file:
-    publications = pd.read_csv(uploaded_file, encoding="latin1")
+publications_file = "PUBLICATIONS.csv"
+
+if os.path.exists(publications_file):
+    publications = pd.read_csv(publications_file, encoding="latin1")
     publications = publications.replace("\xa0", " ", regex=True)
     publications.columns = publications.columns.str.strip().str.upper()
 
@@ -265,17 +266,20 @@ if uploaded_file:
         ]
 
     with st.expander("Open my publications"):
-        st.dataframe(filtered, use_container_width=True)
+        st.dataframe(filtered, width="stretch")
 
     if "YEAR" in filtered.columns:
         filtered["YEAR"] = pd.to_numeric(filtered["YEAR"], errors="coerce")
         year_counts = filtered["YEAR"].value_counts().sort_index()
+
         if not year_counts.empty:
             st.write("How this space has grown over time")
-            st.bar_chart(year_counts)
+            st.bar_chart(year_counts, width="stretch")
+
+else:
+    st.info("Publications will appear here soon 🌱")
 
 st.divider()
-
 # ----------------------
 # HOBBIES & INTERESTS
 # ----------------------
@@ -306,5 +310,6 @@ st.markdown(
     "<p style='text-align:center; font-weight:600;'>📧 adegokeaanuoluwapo5@gmail.com</p>",
     unsafe_allow_html=True
 )
+
 
 
